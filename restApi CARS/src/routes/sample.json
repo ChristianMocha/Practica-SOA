@@ -1,0 +1,18 @@
+[
+    {
+        "id": "1",
+        "balance": "25.54",
+        "userName": "Rene Panjon"
+        
+    },
+    {
+        "id": "2",
+        "balance": "12.54",
+        "userName": "Julia Salinas"
+    },
+    {
+        "id": "3",
+        "balance": "15.22",
+        "userName": "Christian Mocha"
+    }
+]
