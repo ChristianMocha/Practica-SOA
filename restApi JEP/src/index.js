@@ -13,9 +13,7 @@ app.use(express.json());
 
 // routers
 app.use(require('./routes/index'));
-// app.use('/api/movies', require('./routes/movies'));
 app.use('/api/jeep', require('./routes/jeep'));
-app.use('/api/cars', require('./routes/cars'));
 
  
 // starting the server

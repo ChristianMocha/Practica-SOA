@@ -13,7 +13,6 @@ app.use(express.json());
 
 // routers
 app.use(require('./routes/index'));
-// app.use('/api/movies', require('./routes/movies'));
 app.use('/api/cars', require('./routes/cars'));
 
  
