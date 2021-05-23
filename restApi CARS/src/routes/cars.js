@@ -4,12 +4,12 @@ const router = Router();
 const _ = require('underscore');
 const fetch = require ('node-fetch');
 
-
+// get, post, put, delete
 
 // post bancos
 router.post('/:cuenta', (req, res) => {
     const {cuenta} = req.params;
-    const precio = 1;
+    const precio = 12;
     const cuentaFinal = 3952;
 
     if(cuenta && precio){
