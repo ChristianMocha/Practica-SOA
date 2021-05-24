@@ -17,33 +17,29 @@ router.put('/:id', (req, res) => {
     // const {id} = req.params;
     const {cuenta} = req.body;
     const {precio} = req.body;
-    console.log(cuenta, "cuenta austro")
+    // console.log(cuenta, "cuenta austro")
     let total=0;
-    
     if (cuenta && precio){
         _.each(austro, (aus, i) => {
             if(aus.cuenta == cuenta){
-                
                 if(aus.saldo < precio){
                     res.status(500).json({error: "No tiene suficiente money haga una recarga :P"})
                 }else{
-                     total = aus.saldo - precio;
+                    total = aus.saldo - precio;
                     aus.saldo = total;
                     console.log(total)
                 }  
             }
         });
         if (total != 0){
+            console.log('Austro', austro);
             res.status(200).send("ok");
         }else{
+            console.log( 'Account not found' );
             res.status(500).send({erro:"account not found"});
-        
-        }
-        console.log('austro', austro);
-        res.status(200).send('OK')
-        // res.status(ok);
-        // res.send(austro);
+        }// res.send(austro);
     }else{
+        console.log( 'There was an error' );
         res.status(500).json({error: "There was an error."})
     }
 })

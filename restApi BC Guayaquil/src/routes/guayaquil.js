@@ -18,8 +18,6 @@ router.put('/:id', (req, res) => {
     const {cuenta} = req.body;
     const {precio} = req.body;
     let total = 0;
-
-    
     if (cuenta && precio){
         _.each(guayaquil, (guayas, i) => {
             if(guayas.cuenta == cuenta){
@@ -36,10 +34,11 @@ router.put('/:id', (req, res) => {
             res.status(200).send('OK')
             console.log('guayaquil', guayaquil);
         }else{
-
-            res.status(500).json({error: "Account not found."})
+            console.log('Account not found');
+            res.status(500).send({error: "Account not found."})
         }
     }else{
+        console.log( 'There was an error' );
         res.status(500).json({error: "There was an error."})
     }
 })
