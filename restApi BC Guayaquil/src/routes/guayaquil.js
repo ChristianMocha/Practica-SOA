@@ -17,7 +17,7 @@ router.put('/:id', (req, res) => {
     // const {id} = req.params;
     const {cuenta} = req.body;
     const {precio} = req.body;
-    console.log('guayaquil', cuenta);
+    let total = 0;
 
     
     if (cuenta && precio){
@@ -27,15 +27,18 @@ router.put('/:id', (req, res) => {
                 if(guayas.saldo < precio){
                     res.status(500).json({error: "No tiene suficiente dinero :P"})
                 }else{
-                    const total = guayas.saldo - precio;
+                    total = guayas.saldo - precio;
                     guayas.saldo = total;
                 }  
             }
         });
-        console.log('guayaquil', guayaquil);
-        res.status(200).send('OK')
-        // res.status(ok);
-        // res.send(guayaquil);
+        if(total != 0){
+            res.status(200).send('OK')
+            console.log('guayaquil', guayaquil);
+        }else{
+
+            res.status(500).json({error: "Account not found."})
+        }
     }else{
         res.status(500).json({error: "There was an error."})
     }
