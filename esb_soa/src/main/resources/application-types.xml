@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<types:mule xmlns:types="http://www.mulesoft.org/schema/mule/types">
+  <types:catalog>
+    <types:type name="cuenta" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: object
+properties:
+    param:
+        type: string
+    origen:
+        type: string
+    destino:
+        type: string
+    precio:
+        type: number
+    tipo:
+        type: string
+    entidad:
+        type: string]]></types:shape>
+    </types:type>
+    <types:type name="service" format="java">
+      <types:shape format="raml"><![CDATA[#%RAML 1.0 DataType
+type: string]]></types:shape>
+    </types:type>
+  </types:catalog>
+  <types:enrichment select="#cafd93fd-5821-4671-8b45-80af0d06ff59">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="cuenta"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+    <types:operation-declaration>
+      <types:inputs>
+        <types:parameter name="value" type="cuenta"/>
+      </types:inputs>
+    </types:operation-declaration>
+  </types:enrichment>
+  <types:enrichment select="#f615d3d0-171a-41e6-acad-1b75b271ed01">
+    <types:operation-declaration>
+      <types:inputs>
+        <types:parameter name="body" type="cuenta"/>
+      </types:inputs>
+    </types:operation-declaration>
+  </types:enrichment>
+  <types:enrichment select="#87995b21-0611-44a2-a142-f3a6159f711d">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="cuenta"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+    <types:operation-declaration>
+      <types:inputs>
+        <types:parameter name="value" type="cuenta"/>
+      </types:inputs>
+    </types:operation-declaration>
+  </types:enrichment>
+  <types:enrichment select="#ddc5acda-6947-4ef4-9fe8-1819e4556ddc">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="cuenta"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#7b2cdd25-742f-4860-b26b-b78004e8394d">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="cuenta"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+  </types:enrichment>
+  <types:enrichment select="#1315e77a-c465-4757-add5-dd62c5f62307">
+    <types:processor-declaration>
+      <types:input-event>
+        <types:message>
+          <types:payload type="cuenta"/>
+        </types:message>
+      </types:input-event>
+    </types:processor-declaration>
+    <types:operation-declaration>
+      <types:inputs>
+        <types:parameter name="sendCorrelationId" type="cuenta"/>
+        <types:parameter name="correlationId" type="cuenta"/>
+      </types:inputs>
+    </types:operation-declaration>
+  </types:enrichment>
+</types:mule>

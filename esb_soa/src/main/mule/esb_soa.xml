@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c6a6cfc1-005a-4c19-9349-ca93a1c69e6a" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="esb_soaFlow" doc:id="abd4e146-8ee6-4d2a-8359-bce801e8189c" >
+		<http:listener doc:name="Listener" doc:id="ffa9bbd5-7668-4386-820a-6b4e5202cfc1" config-ref="HTTP_Listener_config" path="/"/>
+		<set-payload value="#[payload]" doc:name="Set Payload" doc:id="cafd93fd-5821-4671-8b45-80af0d06ff59" />
+		<logger level="INFO" doc:name="Logger" doc:id="72e3f2a8-f5d6-4260-bf31-d6d2b62e620f" message="IMPRIMIENDO #[payload]" />
+		<choice doc:name="Choice" doc:id="ddc5acda-6947-4ef4-9fe8-1819e4556ddc" >
+			<when expression='#[payload.tipo == "transaction"]'>
+				<choice doc:name="Choice" doc:id="e84e1ef5-73f7-4291-a515-27051cf63849">
+					<when expression='#[payload.entidad=="Pichincha"]'>
+						<http:request method="PUT" doc:name="PICHINCHA" doc:id="3ac4b91b-07c9-42e8-ab86-775bcaeb9edc" url="http://localhost:5000/api/pichincha/transaction">
+			<http:body><![CDATA[#[output application/json
+---
+{
+	'cuenta'  : payload.origen,
+	'precio'  : payload.precio
+}]]]></http:body>
+			<http:headers><![CDATA[#[output application/json
+---
+{
+	'Content-type' : 'application/json',
+}]]]></http:headers>
+		</http:request>
+						<choice doc:name="Choice" doc:id="49674c93-e6f7-4bc6-90cb-899a9992382f">
+					<when expression="#[message.attributes.statusCode == 200]">
+						<http:request method="PUT" doc:name="JEP" doc:id="1315e77a-c465-4757-add5-dd62c5f62307" url="http://localhost:4000/api/jeep/transaction">
+					<http:body><![CDATA[#[output application/json
+---
+{
+	'cuenta' : "3952",
+	'precio' : 2
+}]]]></http:body>
+					<http:headers><![CDATA[#[output application/json
+---
+{
+	'Content-type' : 'application/json',
+}]]]></http:headers>
+				</http:request>
+						<logger level="INFO" doc:name="Logger" doc:id="c84fbd77-ed1b-47c3-9102-62becf6e6f4a" message="res #[message]" />
+					</when>
+					<otherwise>
+						<logger level="INFO" doc:name="Logger" doc:id="a135c9c3-6e25-47ca-a566-72a66342a9a4" />
+					</otherwise>
+				</choice>
+					</when>
+					<when expression='#[payload.entidad=="Guayaquil"]'>
+						<http:request method="PUT" doc:name="Guayaquil" doc:id="94ba434c-19da-4fb7-ae2e-93bd6d2449e6" url="http://localhost:6000/api/guayaquil/transaction">
+							<http:body ><![CDATA[#[output application/json
+---
+{
+	'cuenta'  : payload.origen,
+	'precio'  : payload.precio
+}]]]></http:body>
+							<http:headers ><![CDATA[#[output application/json
+---
+{
+	'Content-type' : 'application/json',
+}]]]></http:headers>
+						</http:request>
+						<choice doc:name="Choice" doc:id="e42ad449-56e6-4dc6-b42f-edd7d53fffef" >
+							<when expression="#[message.attributes.statusCode == 200]" >
+								<http:request method="PUT" doc:name="JEP" doc:id="42f5a93d-d36c-4e5d-aeda-d719b19f64d2" url="http://localhost:4000/api/jeep/transaction" >
+									<http:body ><![CDATA[#[output application/json
+---
+{
+	'cuenta' : "3952",
+	'precio' : 2
+}]]]></http:body>
+									<http:headers ><![CDATA[#[output application/json
+---
+{
+	'Content-type' : 'application/json',
+}]]]></http:headers>
+								</http:request>
+								<logger level="INFO" doc:name="Logger" doc:id="a33aa7cb-1d32-4737-97de-72ea0dffd6bb" message="res #[message]" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="61e7c6bf-1130-476e-b5ce-b44066181310" />
+							</otherwise>
+						</choice>
+					</when>
+					<when expression='#[payload.entidad=="Austro"]'>
+						<http:request method="PUT" doc:name="Austro" doc:id="648ad073-597a-479b-9cdd-f94d0e4c3a01" url="http://localhost:7000/api/austro/transaction" >
+							<http:body ><![CDATA[#[output application/json
+---
+{
+	'cuenta'  : payload.origen,
+	'precio'  : payload.precio
+}]]]></http:body>
+							<http:headers ><![CDATA[#[output application/json
+---
+{
+	'Content-type' : 'application/json',
+}]]]></http:headers>
+						</http:request>
+						<choice doc:name="Choice" doc:id="acc2d9ef-fd75-414b-8ce6-67b47d8004cc" >
+							<when expression="#[message.attributes.statusCode == 200]" >
+								<http:request method="PUT" doc:name="JEP" doc:id="1c1bc47d-159f-4df8-9764-2224589410eb" url="http://localhost:4000/api/jeep/transaction" >
+									<http:body ><![CDATA[#[output application/json
+---
+{
+	'cuenta' : "3952",
+	'precio' : 2
+}]]]></http:body>
+									<http:headers ><![CDATA[#[output application/json
+---
+{
+	'Content-type' : 'application/json',
+}]]]></http:headers>
+								</http:request>
+								<logger level="INFO" doc:name="Logger" doc:id="d355b849-742b-40f4-8a3e-5377b04a5bed" message="res #[message]" />
+							</when>
+							<otherwise >
+								<logger level="INFO" doc:name="Logger" doc:id="f05666a3-fd1f-4bdf-8cd3-3a3d186f4109" />
+							</otherwise>
+						</choice>
+					</when>
+					<otherwise >
+						<logger level="INFO" doc:name="Logger" doc:id="082a6688-6f8e-457b-bc32-5a033ce79f31" message="Ingrese un entidad correcta"/>
+					</otherwise>
+				</choice>
+			</when>
+			<when expression='#[payload.tipo == "getPichincha"]'>
+				<http:request method="GET" doc:name="Request" doc:id="6c1faaa6-94fa-4f33-b041-e5c31c4173c8" url="http://localhost:5000/api/pichincha/"/>
+				<logger level="INFO" doc:name="Logger" doc:id="5cbc39f9-eeb7-4344-9cd1-b5619270d5a8" message="result #[message]"/>
+			</when>
+			<when expression='#[payload.tipo == "getJep"]'>
+				<http:request method="GET" doc:name="Request" doc:id="a033a7eb-cecc-4430-a274-af1c1f24e105" url="http://localhost:4000/api/jeep/"/>
+				<logger level="INFO" doc:name="Logger" doc:id="55ac94e5-63e8-4f67-be37-b95d24ab9332" />
+			</when>
+			<otherwise>
+				<http:request method="GET" doc:name="Request" doc:id="fe6fa226-b096-40d2-8dad-a539af106eab" url="https://ws.audioscrobbler.com/2.0/?method=album.search&amp;api_key=3759fdf56b4e19ee9daa38c1b158bc48&amp;format=json&amp;limit=14">
+					<http:query-params ><![CDATA[#[output application/json
+---
+{
+	album : payload.param
+}]]]></http:query-params>
+				</http:request>
+				<logger level="INFO" doc:name="Logger" doc:id="0a9c38e5-29c0-4628-94a6-5af13042de91" message="#[message]"/>
+			</otherwise>
+		</choice>
+	</flow>
+</mule>
